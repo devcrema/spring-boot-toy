@@ -39,7 +39,7 @@ public class UserServiceTests {
     @Test
     public void testLoadUserByUsername(){
         //given
-        String email = UserFixtureGenerator.EMAIL;
+        String email = UserFixtureGenerator.TEST_USER_VO.getEmail();
         String unExistentEmail = "nothing";
 
         //when

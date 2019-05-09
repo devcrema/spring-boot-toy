@@ -8,15 +8,14 @@ import java.util.Optional;
 
 public class UserFixtureGenerator {
 
-    public static final String EMAIL = "test@test.com";
-    public static final String NICKNAME = "nickname";
-    public static final String PASSWORD = "123456789a";
+    public static final User TEST_USER_VO = User.builder()
+            .email("test@test.com")
+            .nickname("nickname")
+            .password("password")
+            .build();
 
     public static User generateUser (UserRepository userRepository, PasswordEncoder userPasswordEncoder) {
-        Optional<User> optionalUser = userRepository.findByEmail(EMAIL);
-        return optionalUser.orElseGet(() -> userRepository.save(User.builder()
-                .email(EMAIL)
-                .nickname(NICKNAME)
-                .password(userPasswordEncoder.encode(PASSWORD)).build()));
+        Optional<User> optionalUser = userRepository.findByEmail(TEST_USER_VO.getEmail());
+        return optionalUser.orElseGet(() -> userRepository.save(TEST_USER_VO.initialize(userPasswordEncoder)));
     }
 }

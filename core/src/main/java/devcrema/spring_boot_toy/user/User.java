@@ -33,9 +33,10 @@ public class User extends BaseAuditingEntity implements UserDetails {
 
     private boolean enabled;
 
-    public void initialize(PasswordEncoder encoder){
+    public User initialize(PasswordEncoder encoder){
         enabled = true;
         encodePassword(encoder);
+        return this;
     }
 
     private void encodePassword(PasswordEncoder encoder){

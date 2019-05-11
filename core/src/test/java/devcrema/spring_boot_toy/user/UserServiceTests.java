@@ -32,11 +32,12 @@ public class UserServiceTests {
     @Autowired
     UserService userService;
 
-    static User user;
+    @Autowired
+    UserFixtureGenerator userFixtureGenerator;
 
     @BeforeEach
     public void setUp(){
-        user = UserFixtureGenerator.generateUser(userRepository, userPasswordEncoder);
+        userFixtureGenerator.generateUser();
     }
 
     @Test

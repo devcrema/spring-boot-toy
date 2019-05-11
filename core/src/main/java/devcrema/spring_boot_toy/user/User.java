@@ -3,21 +3,21 @@ package devcrema.spring_boot_toy.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import devcrema.spring_boot_toy.BaseAuditingEntity;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @ToString(callSuper = true)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Slf4j
 @Entity
 public class User extends BaseAuditingEntity implements UserDetails {
     @Id
@@ -33,14 +33,20 @@ public class User extends BaseAuditingEntity implements UserDetails {
 
     private boolean enabled;
 
-    public User initialize(PasswordEncoder encoder){
-        enabled = true;
-        encodePassword(encoder);
-        return this;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
-    private void encodePassword(PasswordEncoder encoder){
+    public User initialize(PasswordEncoder encoder, Collection<Role> roles){
+        enabled = true;
+        this.roles = roles;
         this.password = encoder.encode(this.password);
+        return this;
     }
 
     //UserDetails 구현부
@@ -48,7 +54,15 @@ public class User extends BaseAuditingEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        try{
+            roles.forEach((role)->
+                    role.getPrivileges().forEach((privilege -> {
+                        authorities.add(new SimpleGrantedAuthority(privilege.getName()));
+                    })));
+        } catch (NullPointerException nullPointerException){
+            log.error(nullPointerException.getLocalizedMessage());
+        }
+
         return authorities;
     }
 

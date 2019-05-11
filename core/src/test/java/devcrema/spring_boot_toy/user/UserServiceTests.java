@@ -44,7 +44,7 @@ public class UserServiceTests {
     @DisplayName("유저는 이메일로 불러올 수 있음")
     public void userCanBeLoadedByEmail(){
         //given
-        String email = UserFixtureGenerator.TEST_USER_VO.getEmail();
+        String email = UserFixtureGenerator.EMAIL;
 
         //when
         User user = (User) userService.loadUserByUsername(email);

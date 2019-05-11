@@ -40,9 +40,9 @@ public class User extends BaseAuditingEntity implements UserDetails {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private List<Role> roles;
 
-    public User initialize(PasswordEncoder encoder, Collection<Role> roles){
+    public User initialize(PasswordEncoder encoder, List<Role> roles){
         enabled = true;
         this.roles = roles;
         this.password = encoder.encode(this.password);

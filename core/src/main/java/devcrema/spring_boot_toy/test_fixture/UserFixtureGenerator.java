@@ -1,6 +1,6 @@
 package devcrema.spring_boot_toy.test_fixture;
 
-import devcrema.spring_boot_toy.config.SecurityManager;
+import devcrema.spring_boot_toy.config.AuthorityManager;
 import devcrema.spring_boot_toy.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,19 +12,28 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserFixtureGenerator {
 
+    public static final String EMAIL = "test@test.com";
+    public static final String NICKNAME = "nickname";
+    public static final String PASSWORD = "password";
+
     private final UserRepository userRepository;
     private final UserPasswordEncoder userPasswordEncoder;
-    private final RoleRepository roleRepository;
+    private final AuthorityManager authorityManager;
 
-    public static final User TEST_USER_VO = User.builder()
-            .email("test@test.com")
-            .nickname("nickname")
-            .password("password")
-            .build();
+    public User generateUser() {
+        Optional<User> optionalUser = userRepository.findByEmail(EMAIL);
+        return optionalUser.orElseGet(()
+                -> userRepository.save(
+                buildTestUserVo().initialize(
+                        userPasswordEncoder, Collections.singletonList(
+                                authorityManager.findRole(AuthorityManager.RoleType.ROLE_USER)))));
+    }
 
-    public User generateUser () {
-        Optional<User> optionalUser = userRepository.findByEmail(TEST_USER_VO.getEmail());
-        Role role = roleRepository.findByName(SecurityManager.ROLE_USER).orElseThrow(()-> new RoleNotFoundException("유저 role이 설정되지 않음"));
-        return optionalUser.orElseGet(() -> userRepository.save(TEST_USER_VO.initialize(userPasswordEncoder, Collections.singleton(role))));
+    public static User buildTestUserVo() {
+        return User.builder()
+                .email(EMAIL)
+                .nickname(NICKNAME)
+                .password(PASSWORD)
+                .build();
     }
 }

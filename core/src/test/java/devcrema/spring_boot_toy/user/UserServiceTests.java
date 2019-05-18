@@ -2,6 +2,8 @@ package devcrema.spring_boot_toy.user;
 
 import devcrema.spring_boot_toy.CustomTestConfiguration;
 import devcrema.spring_boot_toy.test_fixture.UserFixtureGenerator;
+import devcrema.spring_boot_toy.user.repository.UserRepository;
+import devcrema.spring_boot_toy.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

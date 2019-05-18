@@ -1,9 +1,14 @@
 package devcrema.spring_boot_toy.config;
 
 import devcrema.spring_boot_toy.user.*;
+import devcrema.spring_boot_toy.user.repository.PrivilegeRepository;
+import devcrema.spring_boot_toy.user.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
-public class AuthorityManager implements ApplicationListener<ContextRefreshedEvent> {
+public class AuthorityManager {
 
     public enum RoleType {
         ROLE_CHEF,
@@ -28,18 +34,13 @@ public class AuthorityManager implements ApplicationListener<ContextRefreshedEve
         ADMIN_PRIVILEGE
     }
 
-    private boolean alreadySetup = false;
-
     private final RoleRepository roleRepository;
 
     private final PrivilegeRepository privilegeRepository;
 
-
-    @Override
     @Transactional
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-
-        if (alreadySetup) return;
+    @EventListener(ApplicationReadyEvent.class)
+    public void initializeAuthority() {
 
         Privilege chefPrivilege = createPrivilegeIfNotFound(PrivilegeType.CHEF_PRIVILEGE);
         Privilege userPrivilege = createPrivilegeIfNotFound(PrivilegeType.USER_PRIVILEGE);
@@ -51,8 +52,7 @@ public class AuthorityManager implements ApplicationListener<ContextRefreshedEve
         createRoleIfNotFound(RoleType.ROLE_CHEF, Collections.singletonList(chefPrivilege));
         createRoleIfNotFound(RoleType.ROLE_USER, Collections.singleton(userPrivilege));
         createRoleIfNotFound(RoleType.ROLE_ADMIN, adminPrivileges);
-
-        alreadySetup = true;
+        log.info("authority is successfully initialized");
     }
 
     @Transactional

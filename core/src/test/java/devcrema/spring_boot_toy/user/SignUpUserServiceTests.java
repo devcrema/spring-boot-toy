@@ -3,6 +3,8 @@ package devcrema.spring_boot_toy.user;
 import devcrema.spring_boot_toy.CustomTestConfiguration;
 import devcrema.spring_boot_toy.config.AuthorityManager;
 import devcrema.spring_boot_toy.test_fixture.UserFixtureGenerator;
+import devcrema.spring_boot_toy.user.repository.UserRepository;
+import devcrema.spring_boot_toy.user.service.SignUpUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("OptionalGetWithoutIsPresent")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = CustomTestConfiguration.class)
 @ActiveProfiles(profiles = "test")
@@ -61,7 +62,7 @@ public class SignUpUserServiceTests {
         //when
         signUpUserService.signUp(user);
         //then
-        User savedUser = userRepository.findByEmail(user.getEmail()).get();
+        User savedUser = userRepository.findByEmail(user.getEmail()).orElseThrow(RuntimeException::new);
         assertThat(userPasswordEncoder.matches(UserFixtureGenerator.PASSWORD, savedUser.getPassword())).isTrue();
         assertThat(user.getRoles().get(0).getName()).isEqualTo(AuthorityManager.RoleType.ROLE_USER.name());
     }

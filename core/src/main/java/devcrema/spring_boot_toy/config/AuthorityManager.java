@@ -1,6 +1,8 @@
 package devcrema.spring_boot_toy.config;
 
 import devcrema.spring_boot_toy.user.*;
+import devcrema.spring_boot_toy.user.repository.PrivilegeRepository;
+import devcrema.spring_boot_toy.user.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

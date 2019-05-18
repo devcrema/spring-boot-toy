@@ -1,5 +1,6 @@
-package devcrema.spring_boot_toy.user;
+package devcrema.spring_boot_toy.user.repository;
 
+import devcrema.spring_boot_toy.user.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

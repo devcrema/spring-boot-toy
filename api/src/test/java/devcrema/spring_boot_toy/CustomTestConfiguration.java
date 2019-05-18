@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = "devcrema.spring_boot_toy")
+@ComponentScan(basePackages = "devcrema")
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 public class CustomTestConfiguration {
 

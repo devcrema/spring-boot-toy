@@ -2,6 +2,7 @@ package devcrema.spring_boot_toy.test_fixture;
 
 import devcrema.spring_boot_toy.config.AuthorityManager;
 import devcrema.spring_boot_toy.user.*;
+import devcrema.spring_boot_toy.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -62,7 +62,7 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .withClient(CLIENT_ID)
                 .secret(userPasswordEncoder.encode(CLIENT_SECRET))
                 .accessTokenValiditySeconds(-1)
-                .scopes("SPRING_BOOT_TOY")
+                .scopes("FULL_ACCESS_SPRING_BOOT_TOY")
                 .authorizedGrantTypes("password");
     }
 }

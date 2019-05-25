@@ -1,13 +1,12 @@
-package devcrema.spring_boot_toy.user.repository;
+package devcrema.spring_boot_toy.chef;
 
-import devcrema.spring_boot_toy.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface ChefRepository extends JpaRepository<Chef, Long> {
     Optional<UserDetails> findByEmail(String email);
 
-    Optional<User> findUserByEmail(String email);
+    Optional<Chef> findChefByEmail(String email);
 }

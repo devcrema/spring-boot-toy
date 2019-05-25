@@ -68,8 +68,8 @@ public class SignUpUserControllerTests {
         String url = "/api/users";
         SignUpUserRequest signUpUserRequest = new SignUpUserRequest(
                 EMAIL,
-                "1234",
-                NICKNAME);
+                NICKNAME,
+                "1234");
         //when
         MvcResult mvcResult = mockMvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

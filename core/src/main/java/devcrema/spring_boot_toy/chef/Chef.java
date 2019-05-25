@@ -1,17 +1,20 @@
-package devcrema.spring_boot_toy.user;
+package devcrema.spring_boot_toy.chef;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import devcrema.spring_boot_toy.BaseAuditingEntity;
 import devcrema.spring_boot_toy.service.RoleType;
+import devcrema.spring_boot_toy.user.User;
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 @Getter
 @ToString(callSuper = true)
@@ -19,7 +22,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class User extends BaseAuditingEntity implements UserDetails {
+public class Chef extends BaseAuditingEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -33,7 +36,7 @@ public class User extends BaseAuditingEntity implements UserDetails {
 
     private boolean enabled;
 
-    public User initialize(PasswordEncoder encoder){
+    public Chef initialize(PasswordEncoder encoder){
         enabled = true;
         this.password = encoder.encode(this.password);
         return this;
@@ -44,7 +47,7 @@ public class User extends BaseAuditingEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(RoleType.ROLE_USER.name()));
+        authorities.add(new SimpleGrantedAuthority(RoleType.ROLE_CHEF.name()));
         return authorities;
     }
 
@@ -79,6 +82,4 @@ public class User extends BaseAuditingEntity implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
-
 }

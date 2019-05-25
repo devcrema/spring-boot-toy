@@ -1,7 +1,7 @@
 package devcrema.spring_boot_toy.config;
 
-import devcrema.spring_boot_toy.user.UserPasswordEncoder;
-import devcrema.spring_boot_toy.user.service.UserService;
+import devcrema.spring_boot_toy.service.CustomPasswordEncoder;
+import devcrema.spring_boot_toy.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserService userService;
-    private UserPasswordEncoder userPasswordEncoder;
+    private CustomUserDetailsService customUserDetailsService;
+    private CustomPasswordEncoder customPasswordEncoder;
 
     @Override
     @Bean
@@ -26,12 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userService)
-                .passwordEncoder(userPasswordEncoder);
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(customPasswordEncoder);
     }
 
     @Override
@@ -47,7 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/webjars/**"
                 ).permitAll()
-                .antMatchers(HttpMethod.POST,"/api/users").permitAll()
-                .antMatchers("/api/users/approve_reservation").hasAuthority(AuthorityManager.PrivilegeType.ADMIN_PRIVILEGE.name());
+                .antMatchers(HttpMethod.POST,"/api/users").permitAll();
     }
 }

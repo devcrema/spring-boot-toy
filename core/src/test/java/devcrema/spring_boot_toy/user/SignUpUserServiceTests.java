@@ -1,7 +1,7 @@
 package devcrema.spring_boot_toy.user;
 
 import devcrema.spring_boot_toy.CustomTestConfiguration;
-import devcrema.spring_boot_toy.config.AuthorityManager;
+import devcrema.spring_boot_toy.service.CustomPasswordEncoder;
 import devcrema.spring_boot_toy.test_fixture.UserFixtureGenerator;
 import devcrema.spring_boot_toy.user.repository.UserRepository;
 import devcrema.spring_boot_toy.user.service.SignUpUserService;
@@ -30,7 +30,7 @@ public class SignUpUserServiceTests {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private UserPasswordEncoder userPasswordEncoder;
+    private CustomPasswordEncoder customPasswordEncoder;
 
     @Test
     @DisplayName("유저가 정상적으로 저장됨")
@@ -62,9 +62,8 @@ public class SignUpUserServiceTests {
         //when
         signUpUserService.signUp(user);
         //then
-        User savedUser = userRepository.findByEmail(user.getEmail()).orElseThrow(RuntimeException::new);
-        assertThat(userPasswordEncoder.matches(UserFixtureGenerator.PASSWORD, savedUser.getPassword())).isTrue();
-        assertThat(user.getRoles().get(0).getName()).isEqualTo(AuthorityManager.RoleType.ROLE_USER.name());
+        User savedUser = userRepository.findUserByEmail(user.getEmail()).orElseThrow(RuntimeException::new);
+        assertThat(customPasswordEncoder.matches(UserFixtureGenerator.PASSWORD, savedUser.getPassword())).isTrue();
     }
 
 

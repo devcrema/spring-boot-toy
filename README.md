@@ -1,5 +1,11 @@
 # spring-boot-toy
 
+간단한 음식점 도메인 예제
+
+구현기능
+
+- 회원가입
+
 swagger
 http://localhost:8080/swagger-ui.html
 

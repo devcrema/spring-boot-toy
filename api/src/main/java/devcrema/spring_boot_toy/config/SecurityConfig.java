@@ -1,5 +1,6 @@
 package devcrema.spring_boot_toy.config;
 
+import devcrema.spring_boot_toy.Api;
 import devcrema.spring_boot_toy.service.CustomPasswordEncoder;
 import devcrema.spring_boot_toy.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/webjars/**"
                 ).permitAll()
-                .antMatchers(HttpMethod.POST,"/api/users").permitAll();
+                .antMatchers(HttpMethod.POST, Api.User.USERS).permitAll()
+                .antMatchers(HttpMethod.POST, Api.CHEF.CHEFS).permitAll();
     }
 }

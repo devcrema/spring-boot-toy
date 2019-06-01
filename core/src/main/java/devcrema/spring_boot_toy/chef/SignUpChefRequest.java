@@ -1,4 +1,4 @@
-package devcrema.spring_boot_toy.user;
+package devcrema.spring_boot_toy.chef;
 
 import devcrema.spring_boot_toy.validator.Nickname;
 import devcrema.spring_boot_toy.validator.Password;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpUserRequest {
+public class SignUpChefRequest {
 
     @NotNull(message = "email이 존재하지 않습니다.")
     @Email(message = "잘못된 이메일형식입니다.")
@@ -25,7 +25,7 @@ public class SignUpUserRequest {
     @Password
     private String password;
 
-    public User toUser(ModelMapper modelMapper){
-        return modelMapper.map(this, User.class);
+    public Chef toChef(ModelMapper modelMapper){
+        return modelMapper.map(this, Chef.class);
     }
 }

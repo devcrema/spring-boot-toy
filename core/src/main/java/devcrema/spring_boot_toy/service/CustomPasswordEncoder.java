@@ -1,15 +1,15 @@
-package devcrema.spring_boot_toy.user;
+package devcrema.spring_boot_toy.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component("userPasswordEncoder")
-public class UserPasswordEncoder implements PasswordEncoder {
+@Component
+public class CustomPasswordEncoder implements PasswordEncoder {
 
     private PasswordEncoder passwordEncoder;
 
-    public UserPasswordEncoder(){
+    public CustomPasswordEncoder(){
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 

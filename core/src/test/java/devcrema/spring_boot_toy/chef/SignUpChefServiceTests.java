@@ -1,8 +1,11 @@
-package devcrema.spring_boot_toy.user;
+package devcrema.spring_boot_toy.chef;
 
 import devcrema.spring_boot_toy.CustomTestConfiguration;
 import devcrema.spring_boot_toy.service.CustomPasswordEncoder;
+import devcrema.spring_boot_toy.test_fixture.ChefFixtureGenerator;
 import devcrema.spring_boot_toy.test_fixture.UserFixtureGenerator;
+import devcrema.spring_boot_toy.user.DuplicatedEmailException;
+import devcrema.spring_boot_toy.user.User;
 import devcrema.spring_boot_toy.user.repository.UserRepository;
 import devcrema.spring_boot_toy.user.service.SignUpUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,47 +26,47 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles(profiles = "test")
 @Transactional
 @Slf4j
-public class SignUpUserServiceTests {
+public class SignUpChefServiceTests {
 
     @Autowired
-    private SignUpUserService signUpUserService;
+    private SignUpChefService signUpChefService;
     @Autowired
-    private UserRepository userRepository;
+    private ChefRepository chefRepository;
     @Autowired
     private CustomPasswordEncoder customPasswordEncoder;
 
     @Test
-    @DisplayName("유저가 정상적으로 저장됨")
-    public void userSavedNormally(){
+    @DisplayName("요리사가 정상적으로 저장됨")
+    public void chefSavedNormally(){
         //given
-        User user = UserFixtureGenerator.buildTestUserVo();
-        long count = userRepository.count();
+        Chef chef = ChefFixtureGenerator.buildTestChefVo();
+        long count = chefRepository.count();
         //when
-        signUpUserService.signUp(user);
+        signUpChefService.signUp(chef);
         //then
-        assertThat(userRepository.count()).isEqualTo(count + 1);
+        assertThat(chefRepository.count()).isEqualTo(count + 1);
     }
 
     @Test
-    @DisplayName("중복된 이메일의 유저가 있으면 오류 발생")
-    public void errorOccurredIfDuplicateEmailUsersExist(){
+    @DisplayName("중복된 이메일의 요리사가 있으면 오류 발생")
+    public void errorOccurredIfDuplicateEmailChefExist(){
         //given
-        User user = UserFixtureGenerator.buildTestUserVo();
-        userRepository.save(user);
+        Chef chef = ChefFixtureGenerator.buildTestChefVo();
+        chefRepository.save(chef);
         //when, then
-        assertThrows(DuplicatedEmailException.class, ()->signUpUserService.signUp(user));
+        assertThrows(DuplicatedEmailException.class, ()->signUpChefService.signUp(chef));
     }
 
     @Test
     @DisplayName("유저는 제대로 초기화가 되있어야함")
-    public void usersMustBeProperlyInitialized(){
+    public void chefMustBeProperlyInitialized(){
         //given
-        User user = UserFixtureGenerator.buildTestUserVo();
+        Chef chef = ChefFixtureGenerator.buildTestChefVo();
         //when
-        signUpUserService.signUp(user);
+        signUpChefService.signUp(chef);
         //then
-        User savedUser = userRepository.findUserByEmail(user.getEmail()).orElseThrow(RuntimeException::new);
-        assertThat(customPasswordEncoder.matches(UserFixtureGenerator.PASSWORD, savedUser.getPassword())).isTrue();
+        Chef savedChef = chefRepository.findChefByEmail(chef.getEmail()).orElseThrow(RuntimeException::new);
+        assertThat(customPasswordEncoder.matches(ChefFixtureGenerator.PASSWORD, savedChef.getPassword())).isTrue();
     }
 
 

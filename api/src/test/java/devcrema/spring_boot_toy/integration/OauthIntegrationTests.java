@@ -2,11 +2,14 @@ package devcrema.spring_boot_toy.integration;
 
 import devcrema.spring_boot_toy.AccessTokenUtil;
 import devcrema.spring_boot_toy.CustomTestConfiguration;
+import devcrema.spring_boot_toy.chef.Chef;
+import devcrema.spring_boot_toy.test_fixture.ChefFixtureGenerator;
 import devcrema.spring_boot_toy.test_fixture.UserFixtureGenerator;
 import devcrema.spring_boot_toy.user.User;
-import devcrema.spring_boot_toy.user.UserPasswordEncoder;
+import devcrema.spring_boot_toy.service.CustomPasswordEncoder;
 import devcrema.spring_boot_toy.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +31,31 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OauthIntegrationTests {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserPasswordEncoder userPasswordEncoder;
-
-    @Autowired
     private UserFixtureGenerator userFixtureGenerator;
+    @Autowired
+    private ChefFixtureGenerator chefFixtureGenerator;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testGetOauthToken() throws Exception{
+    @DisplayName("유저 토큰 로그인")
+    public void testGetUserOauthToken() throws Exception{
         //given
         User user = userFixtureGenerator.generateUser();
         //when, then
         String accessToken = AccessTokenUtil.getAccessToken(mockMvc, user.getUsername(), UserFixtureGenerator.PASSWORD);
+        log.info(accessToken);
+        assertThat(accessToken).isNotBlank();
+    }
+
+    @Test
+    @DisplayName("요리사 토큰 로그인")
+    public void testGetChefOauthToken() throws Exception{
+        //given
+        Chef chef = chefFixtureGenerator.generateChef();
+        //when, then
+        String accessToken = AccessTokenUtil.getAccessToken(mockMvc, chef.getUsername(), ChefFixtureGenerator.PASSWORD);
         log.info(accessToken);
         assertThat(accessToken).isNotBlank();
     }

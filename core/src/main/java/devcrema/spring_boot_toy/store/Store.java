@@ -26,4 +26,6 @@ public class Store {
 
     @ManyToMany
     private List<User> chefList;
+
+
 }

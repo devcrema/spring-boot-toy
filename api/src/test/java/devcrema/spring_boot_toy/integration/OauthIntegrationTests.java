@@ -21,6 +21,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = CustomTestConfiguration.class)
@@ -58,5 +61,13 @@ public class OauthIntegrationTests {
         String accessToken = AccessTokenUtil.getAccessToken(mockMvc, chef.getUsername(), ChefFixtureGenerator.PASSWORD);
         log.info(accessToken);
         assertThat(accessToken).isNotBlank();
+    }
+
+    @Test
+    @DisplayName("허용되지 않은 url은 모두 제한한다")
+    public void refuseAnyUrlNotAllowed() throws Exception {
+        mockMvc.perform(get("api/forbidden-test"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
     }
 }

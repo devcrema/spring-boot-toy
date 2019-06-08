@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(Api.CHEF.CHEFS)
+@RequestMapping(Api.Chef.CHEFS)
 @AllArgsConstructor
 public class SignUpChefController {
 

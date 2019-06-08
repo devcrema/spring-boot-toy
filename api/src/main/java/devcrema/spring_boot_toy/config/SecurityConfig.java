@@ -1,10 +1,13 @@
 package devcrema.spring_boot_toy.config;
 
+import devcrema.spring_boot_toy.Api;
 import devcrema.spring_boot_toy.service.CustomPasswordEncoder;
 import devcrema.spring_boot_toy.service.CustomUserDetailsService;
+import devcrema.spring_boot_toy.service.RoleType;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
+@Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private CustomUserDetailsService customUserDetailsService;
@@ -46,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/webjars/**"
                 ).permitAll()
-                .antMatchers(HttpMethod.POST,"/api/users").permitAll();
+                .antMatchers(HttpMethod.POST, Api.User.USERS).permitAll()
+                .antMatchers(HttpMethod.POST, Api.Chef.CHEFS).permitAll()
+                .antMatchers(HttpMethod.GET, Api.Store.STORES).permitAll()
+                .anyRequest().authenticated();
     }
 }

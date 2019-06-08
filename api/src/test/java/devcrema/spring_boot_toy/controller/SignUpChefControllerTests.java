@@ -1,5 +1,6 @@
 package devcrema.spring_boot_toy.controller;
 
+import devcrema.spring_boot_toy.Api;
 import devcrema.spring_boot_toy.CustomObjectMapper;
 import devcrema.spring_boot_toy.CustomTestConfiguration;
 import devcrema.spring_boot_toy.ErrorResponse;
@@ -49,13 +50,12 @@ public class SignUpChefControllerTests {
     @DisplayName("정상적으로 가입 요청하면 OK")
     public void okIfRequestedToSignUpNormally() throws Exception {
         //given
-        String url = "/api/chefs";
         SignUpChefRequest signUpChefRequest = new SignUpChefRequest(
                 EMAIL,
                 NICKNAME,
                 PASSWORD);
         //when, then
-        mockMvc.perform(post(url)
+        mockMvc.perform(post(Api.Chef.CHEFS)
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content(objectMapper.writeValueAsString(signUpChefRequest)))
                 .andDo(print())
@@ -66,13 +66,12 @@ public class SignUpChefControllerTests {
     @DisplayName("비정상적인 정보로 가입요청하면 BAD_REQUEST")
     public void badRequestIfRequestedSignUpWithAbnormalInformation() throws Exception {
         //given
-        String url = "/api/chefs";
         SignUpChefRequest signUpChefRequest = new SignUpChefRequest(
                 EMAIL,
                 NICKNAME,
                 "1234");
         //when
-        MvcResult mvcResult = mockMvc.perform(post(url)
+        MvcResult mvcResult = mockMvc.perform(post(Api.Chef.CHEFS)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(signUpChefRequest)))
                 .andDo(print())
@@ -87,14 +86,13 @@ public class SignUpChefControllerTests {
     @DisplayName("중복된 이메일로 가입하면 CONFLICT")
     public void conflictIfRequestedSignUpWithDuplicatedEmail() throws Exception {
         //given
-        String url = "/api/chefs";
         SignUpChefRequest signUpChefRequest = new SignUpChefRequest(
                 EMAIL,
                 NICKNAME,
                 PASSWORD);
         willThrow(new DuplicatedEmailException()).given(signUpChefService).signUp(any());
         //when
-        MvcResult mvcResult = mockMvc.perform(post(url)
+        MvcResult mvcResult = mockMvc.perform(post(Api.Chef.CHEFS)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(signUpChefRequest)))
                 .andDo(print())

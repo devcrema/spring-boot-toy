@@ -18,8 +18,8 @@ public class Oauth2ResourceConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        //여기에는 oauth resource 서버 관련된 시큐리티 설정을 넣을 예정
-        http.authorizeRequests().anyRequest().permitAll();
+        //여기에는 oauth resource 서버 관련된 시큐리티 설정을 넣으면 됨 (ex: oauth scope)
+        http.authorizeRequests().anyRequest().authenticated();
     }
 
 }

@@ -3,8 +3,6 @@ package devcrema.spring_boot_toy.test_fixture;
 import devcrema.spring_boot_toy.chef.Chef;
 import devcrema.spring_boot_toy.chef.ChefRepository;
 import devcrema.spring_boot_toy.service.CustomPasswordEncoder;
-import devcrema.spring_boot_toy.user.User;
-import devcrema.spring_boot_toy.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SignUpChefService {
 
     private final ChefRepository chefRepository;
     private final CustomPasswordEncoder customPasswordEncoder;
     private final CheckDuplicatedEmailService checkDuplicatedEmailService;
 
-    @Transactional
     public void signUp(Chef chef) {
         if(checkDuplicatedEmailService.checkDuplicatedEmail(chef.getEmail())) {
             throw new DuplicatedEmailException("중복된 이메일이 있습니다.");

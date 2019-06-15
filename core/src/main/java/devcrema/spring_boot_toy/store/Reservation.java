@@ -1,4 +1,4 @@
-package devcrema.spring_boot_toy.reservation;
+package devcrema.spring_boot_toy.store;
 
 import devcrema.spring_boot_toy.BaseAuditingEntity;
 import devcrema.spring_boot_toy.chef.Chef;
@@ -21,17 +21,19 @@ public class Reservation extends BaseAuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @PrimaryKeyJoinColumn
     private Store store;
-    @OneToOne
+    @ManyToOne
     @PrimaryKeyJoinColumn
     private Chef chef;
-    @OneToOne
+    @ManyToOne
     @PrimaryKeyJoinColumn
     private User user;
 
+    @Column(nullable = false)
     private LocalDateTime startTime;
+    @Column(nullable = false)
     private LocalDateTime endTime;
 
 }

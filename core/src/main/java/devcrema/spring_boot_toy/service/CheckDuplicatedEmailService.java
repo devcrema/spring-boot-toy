@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CheckDuplicatedEmailService {
 
     private final UserRepository userRepository;
     private final ChefRepository chefRepository;
     private final AdminRepository adminRepository;
 
-    @Transactional(readOnly = true)
     public boolean checkDuplicatedEmail(String email){
         return userRepository.findByEmail(email).isPresent()
                 || chefRepository.findByEmail(email).isPresent()

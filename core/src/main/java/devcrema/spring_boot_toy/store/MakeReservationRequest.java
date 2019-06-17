@@ -1,14 +1,14 @@
 package devcrema.spring_boot_toy.store;
 
-import devcrema.spring_boot_toy.validator.StartEndTime;
-import devcrema.spring_boot_toy.validator.StartEndTimeValidatable;
+import devcrema.spring_boot_toy.ReservationTime;
+import devcrema.spring_boot_toy.validation.ValidReservationTime;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-@StartEndTime
-public class MakeReservationRequest implements StartEndTimeValidatable {
+@ValidReservationTime
+public class MakeReservationRequest implements ReservationTime {
     LocalDateTime startTime;
     LocalDateTime endTime;
 }

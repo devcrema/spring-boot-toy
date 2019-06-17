@@ -1,4 +1,4 @@
-package devcrema.spring_boot_toy.validator;
+package devcrema.spring_boot_toy.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ METHOD, CONSTRUCTOR, FIELD })
 @Retention(RUNTIME)
 @Documented
-public @interface Nickname {
+public @interface ValidNickname {
     String message() default "닉네임이 올바르지 않습니다.";
 
     Class<?>[] groups() default {};

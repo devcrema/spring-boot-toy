@@ -1,8 +1,8 @@
-package devcrema.spring_boot_toy.validator;
+package devcrema.spring_boot_toy;
 
 import java.time.LocalDateTime;
 
-public interface StartEndTimeValidatable {
+public interface ReservationTime {
     LocalDateTime getStartTime();
     LocalDateTime getEndTime();
 }

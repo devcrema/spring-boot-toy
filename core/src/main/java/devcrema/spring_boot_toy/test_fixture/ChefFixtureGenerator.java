@@ -19,16 +19,26 @@ public class ChefFixtureGenerator {
     private final CustomPasswordEncoder customPasswordEncoder;
 
     public Chef generateChef() {
-        Optional<Chef> optionalChef = chefRepository.findChefByEmail(EMAIL);
+        return generateChef(EMAIL, NICKNAME);
+    }
+
+    public Chef generateChef(String email, String nickname){
+        Optional<Chef> optionalChef = chefRepository.findChefByEmail(email);
         return optionalChef.orElseGet(()
-                -> chefRepository.save(buildTestChefVo().initialize(customPasswordEncoder)));
+                -> chefRepository.save(buildTestChefVo(email, nickname).initialize(customPasswordEncoder)));
     }
 
     public static Chef buildTestChefVo() {
+        return buildTestChefVo(EMAIL, NICKNAME);
+    }
+
+    public static Chef buildTestChefVo(String email, String nickname) {
         return Chef.builder()
-                .email(EMAIL)
-                .nickname(NICKNAME)
+                .email(email)
+                .nickname(nickname)
                 .password(PASSWORD)
                 .build();
     }
+
+
 }

@@ -1,7 +1,7 @@
 package devcrema.spring_boot_toy.chef;
 
-import devcrema.spring_boot_toy.validator.Nickname;
-import devcrema.spring_boot_toy.validator.Password;
+import devcrema.spring_boot_toy.validation.ValidNickname;
+import devcrema.spring_boot_toy.validation.ValidPassword;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +19,10 @@ public class SignUpChefRequest {
     @Email(message = "잘못된 이메일형식입니다.")
     private String email;
 
-    @Nickname
+    @ValidNickname
     private String nickname;
 
-    @Password
+    @ValidPassword
     private String password;
 
     public Chef toChef(ModelMapper modelMapper){

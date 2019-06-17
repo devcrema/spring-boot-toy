@@ -1,4 +1,4 @@
-package devcrema.spring_boot_toy.reservation;
+package devcrema.spring_boot_toy.store;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

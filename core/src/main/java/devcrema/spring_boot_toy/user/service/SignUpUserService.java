@@ -13,13 +13,13 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SignUpUserService {
 
     private final UserRepository userRepository;
     private final CustomPasswordEncoder customPasswordEncoder;
     private final CheckDuplicatedEmailService checkDuplicatedEmailService;
 
-    @Transactional
     public void signUp(User user) {
         if(checkDuplicatedEmailService.checkDuplicatedEmail(user.getEmail())) {
             throw new DuplicatedEmailException("중복된 이메일이 있습니다.");
